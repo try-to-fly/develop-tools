@@ -1,7 +1,5 @@
-import { Grid } from "@mui/material";
 import * as React from "react";
-import { ClientOnly } from "remix-utils";
-import { CodeEditor, SvgoEditor } from "../components";
+import { CodeEditor, SvgoEditor, TwoPanel } from "../components";
 
 import styles from "codemirror/lib/codemirror.css";
 import theme from "codemirror/theme/material.css";
@@ -32,22 +30,14 @@ const svgDemo = `<?xml version="1.0" encoding="utf-8"?>
     </g>
     <g style="color: black" class="unknown-class"></g>
 </svg>
-`
+`;
 
 export default function SvgoPage() {
   const [svg, setSvg] = React.useState(svgDemo);
   return (
-    <ClientOnly>
-      {() => (
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <CodeEditor data={svg} onChange={setSvg} />
-          </Grid>
-          <Grid item xs={6}>
-            <SvgoEditor svg={svg} />
-          </Grid>
-        </Grid>
-      )}
-    </ClientOnly>
+    <TwoPanel
+      left={<CodeEditor data={svg} onChange={setSvg} />}
+      right={<SvgoEditor svg={svg} />}
+    />
   );
 }

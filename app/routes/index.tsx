@@ -1,10 +1,11 @@
 import type { MetaFunction } from "remix";
+import { Favorite } from "../components";
 
 // https://remix.run/api/conventions#meta
 export let meta: MetaFunction = () => {
   return {
-    title: "Remix Starter",
-    description: "Welcome to remix!",
+    title: "Develop tools",
+    description: "开发工具合集",
   };
 };
 
@@ -12,10 +13,7 @@ export let meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div className="remix__page">
-      <main>
-        <h2>Welcome to Remix!</h2>
-        <p>We're stoked that you're here. 🥳</p>
-      </main>
+      <Favorite />
     </div>
   );
 }

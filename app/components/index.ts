@@ -4,3 +4,4 @@ export * from "./editor";
 export * from "./svg";
 export * from "./layout";
 export * from "./url";
+export * from "./favorites";

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import { ClientOnly } from "remix-utils";
 
 type OwnProps = {
@@ -15,14 +15,16 @@ export const TwoPanel: React.FC<OwnProps> = ({ left, right }) => {
     // https://github.com/sergiodxa/remix-utils/search?q=ClientOnly
     <ClientOnly>
       {() => (
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            {left}
+        <Stack mt={1}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              {left}
+            </Grid>
+            <Grid item xs={6}>
+              {right}
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            {right}
-          </Grid>
-        </Grid>
+        </Stack>
       )}
     </ClientOnly>
   );

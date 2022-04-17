@@ -10,6 +10,7 @@ type MenuItem = {
 const list: MenuItem[] = [
   { name: "Json预览", path: "/json" },
   { name: "svg压缩", path: "/svgo" },
+  { name: "url解析", path: "/url" },
 ];
 
 export const MenuList = () => {

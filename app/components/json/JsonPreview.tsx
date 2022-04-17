@@ -31,7 +31,7 @@ export const JsonPreview: React.FC<IOwnProps> = ({ data }) => {
         enableClipboard
         collapsed={2}
         theme="bright"
-        style={{ height: "100vh", backgroundColor: "#263238" }}
+        style={{ backgroundColor: "#263238" }}
       />
     </div>
   );

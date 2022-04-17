@@ -9,11 +9,12 @@ import {
   useCatch,
 } from "remix";
 import type { LinksFunction } from "remix";
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import globalStylesUrl from "~/styles/global.css";
-import normalizeCss from 'normalize.css'
+import normalizeCss from "normalize.css";
 import { MenuList } from "./components";
 
 // https://remix.run/api/app#links
@@ -136,6 +137,18 @@ function Layout({ children }: { children: React.ReactNode }) {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <Link to="/">工具集</Link>
             </Typography>
+            <IconButton
+              size="large"
+              color="inherit"
+              onClick={() =>
+                window.open(
+                  "https://github.com/try-to-fly/develop-tools",
+                  "_blank"
+                )
+              }
+            >
+              <GitHubIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
       </div>

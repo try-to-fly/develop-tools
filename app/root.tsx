@@ -1,5 +1,4 @@
 import {
-  Link,
   Links,
   LiveReload,
   Meta,
@@ -7,21 +6,23 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
+  useLocation,
 } from "remix";
 import type { LinksFunction } from "remix";
-import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import MenuIcon from "@mui/icons-material/Menu";
 
 import globalStylesUrl from "~/styles/global.css";
 import normalizeCss from "normalize.css";
-import { MenuList } from "./components";
+import tailwindCss from "~/styles/tailwind.css";
+import { Layout, Menu, theme } from "antd";
+import { menuList } from "./components/menuList";
+import { ClientOnly } from "remix-utils";
 
 // https://remix.run/api/app#links
 export let links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: globalStylesUrl },
     { rel: "stylesheet", href: normalizeCss },
+    { rel: "stylesheet", href: tailwindCss },
   ];
 };
 
@@ -30,9 +31,9 @@ export let links: LinksFunction = () => {
 export default function App() {
   return (
     <Document>
-      <Layout>
+      <PageLayout>
         <Outlet />
-      </Layout>
+      </PageLayout>
     </Document>
   );
 }
@@ -42,7 +43,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
   console.error(error);
   return (
     <Document title="Error!">
-      <Layout>
+      <PageLayout>
         <div>
           <h1>There was an error</h1>
           <p>{error.message}</p>
@@ -52,7 +53,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
             users to see.
           </p>
         </div>
-      </Layout>
+      </PageLayout>
     </Document>
   );
 }
@@ -83,12 +84,12 @@ export function CatchBoundary() {
 
   return (
     <Document title={`${caught.status} ${caught.statusText}`}>
-      <Layout>
+      <PageLayout>
         <h1>
           {caught.status}: {caught.statusText}
         </h1>
         {message}
-      </Layout>
+      </PageLayout>
     </Document>
   );
 }
@@ -119,44 +120,41 @@ function Document({
   );
 }
 
-function Layout({ children }: { children: React.ReactNode }) {
+function PageLayout({ children }: { children: React.ReactNode }) {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+  const location = useLocation();
+
   return (
     <div className="remix-app">
-      <div className="header">
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
+      <Layout>
+        <Layout.Header className="header">
+          <div className="text-white">工具集</div>
+        </Layout.Header>
+        <Layout>
+          <Layout.Sider width={200} style={{ background: colorBgContainer }}>
+            <Menu
+              mode="inline"
+              selectedKeys={[location.pathname.replace(/^\//, "")]}
+              style={{ height: "100%", borderRight: 0 }}
+              items={menuList}
+            />
+          </Layout.Sider>
+          <Layout style={{ padding: "0 24px 24px" }}>
+            <Layout.Content
+              style={{
+                padding: 24,
+                margin: 0,
+                minHeight: 280,
+                background: colorBgContainer,
+              }}
             >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Link to="/">工具集</Link>
-            </Typography>
-            <IconButton
-              size="large"
-              color="inherit"
-              onClick={() =>
-                window.open(
-                  "https://github.com/try-to-fly/develop-tools",
-                  "_blank"
-                )
-              }
-            >
-              <GitHubIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </div>
-
-      <MenuList />
-      <div className="remix-app__main" style={{ paddingLeft: "160px" }}>
-        <div className="container remix-app__main-content">{children}</div>
-      </div>
+              <ClientOnly>{() => children}</ClientOnly>
+            </Layout.Content>
+          </Layout>
+        </Layout>
+      </Layout>
     </div>
   );
 }

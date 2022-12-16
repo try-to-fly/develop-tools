@@ -1,2 +1,2 @@
-export * from './JsonPreview';
-export * from './JsonToTs.client'
+export * from "./JsonPreview.client";
+export * from "./JsonToTs.client";

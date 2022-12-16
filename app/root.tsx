@@ -1,21 +1,12 @@
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useCatch,
-  useLocation,
-} from "remix";
-import type { LinksFunction } from "remix";
-
+import { Outlet, useCatch, Meta, Links, ScrollRestoration, Scripts, LiveReload, useLocation } from "@remix-run/react";
+import type { LinksFunction } from "@remix-run/server-runtime";
 import globalStylesUrl from "~/styles/global.css";
 import normalizeCss from "normalize.css";
 import tailwindCss from "~/styles/tailwind.css";
 import { Layout, Menu, theme } from "antd";
 import { menuList } from "./components/menuList";
 import { ClientOnly } from "remix-utils";
+
 
 // https://remix.run/api/app#links
 export let links: LinksFunction = () => {

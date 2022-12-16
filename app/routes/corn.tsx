@@ -1,8 +1,8 @@
-import { LinksFunction } from "remix";
 import { EveryHour, TimeCorn } from "../components/corn";
 
 import antdCss from "antd/dist/reset.css";
 import { ClientOnly } from "remix-utils";
+import type { LinksFunction } from "@remix-run/node";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: antdCss }];

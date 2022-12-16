@@ -1,4 +1,4 @@
-import type { MetaFunction } from "remix";
+import type { MetaFunction } from "@remix-run/node";
 import { Favorite } from "../components";
 
 // https://remix.run/api/conventions#meta

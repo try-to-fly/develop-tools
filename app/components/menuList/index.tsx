@@ -1,5 +1,5 @@
-import { MenuProps } from "antd";
-import { Link } from "remix";
+import { Link } from "@remix-run/react";
+import type { MenuProps } from "antd";
 
 export const menuList: MenuProps["items"] = [
   { label: <Link to="/json">Json预览</Link>, key: "json" },

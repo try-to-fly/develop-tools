@@ -1,7 +1,8 @@
 import * as React from "react";
 import { ClientOnly } from "remix-utils";
-import { optimize, OptimizedSvg } from "svgo";
-import { UnControllCodeEditor } from "../editor";
+import type { Output } from "svgo";
+import { optimize } from "svgo";
+import { CodeEditor } from "../editor";
 
 type OwnProps = {
   svg: string;
@@ -11,11 +12,11 @@ export const SvgoEditor: React.FC<OwnProps> = ({ svg }) => {
   const [optimizedSvg, setOptimizedSvg] = React.useState("");
   React.useEffect(() => {
     const result = optimize(svg);
-    setOptimizedSvg((result as OptimizedSvg).data);
+    setOptimizedSvg((result as Output).data);
   }, [svg]);
   return (
     <ClientOnly>
-      {() => <UnControllCodeEditor code={optimizedSvg} />}
+      {() => <CodeEditor data={optimizedSvg} />}
     </ClientOnly>
   );
 };

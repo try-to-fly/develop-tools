@@ -1,10 +1,10 @@
-import { Col, Row } from "antd";
+import { Col, Row, Space } from "antd";
 import * as React from "react";
 import { ClientOnly } from "remix-utils";
 
 type OwnProps = {
-  left: React.ReactNode;
-  right: React.ReactNode;
+  left?: React.ReactNode;
+  right?: React.ReactNode;
 };
 
 /**
@@ -16,8 +16,10 @@ export const TwoPanel: React.FC<OwnProps> = ({ left, right }) => {
     <ClientOnly>
       {() => (
         <Row>
-          <Col span={12}>{left}</Col>
-          <Col span={12}>{right}</Col>
+          <Space>
+            <Col span={11}>{left}</Col>
+            <Col span={11}>{right}</Col>
+          </Space>
         </Row>
       )}
     </ClientOnly>

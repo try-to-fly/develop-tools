@@ -1,27 +1,7 @@
-import {
-  UnControlled as UnControlledCodeMirror,
-  Controlled as CodeMirror,
-} from "react-codemirror2";
-
-require("codemirror/mode/javascript/javascript");
-
-/** 不受控编辑器 */
-export const UnControllCodeEditor: React.FC<{ code: string }> = ({ code }) => {
-  return (
-    <div className="json-to-ts" style={{height:'100vh'}}>
-      <UnControlledCodeMirror
-        value={code}
-        options={{
-          mode: "javascript",
-          theme: "material",
-          lineNumbers: true,
-          tabSize: 2,
-          lineWrapping: true,
-        }}
-      />
-    </div>
-  );
-};
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/theme-one_dark";
+import "ace-builds/src-noconflict/ext-language_tools";
 
 /**
  * Json编辑器
@@ -31,18 +11,17 @@ export const CodeEditor: React.FC<{
   onChange?: (data: string) => void;
 }> = ({ data, onChange }) => {
   return (
-    <div className="json-editor" style={{ height: "100vh" }}>
-      <CodeMirror
+    <div className="code-editor" style={{ height: "80vh" }}>
+      <AceEditor
+        height="100%"
         value={data}
-        options={{
-          mode: "javascript",
-          theme: "material",
-          lineNumbers: true,
-          tabSize: 2,
-          lineWrapping: true,
-        }}
-        onBeforeChange={(editor, data, value) => {
-          onChange?.(value);
+        mode="javascript"
+        theme="one_dark"
+        onChange={onChange}
+        name="ace-editor"
+        editorProps={{ $blockScrolling: true }}
+        setOptions={{
+          wrap: true,
         }}
       />
     </div>

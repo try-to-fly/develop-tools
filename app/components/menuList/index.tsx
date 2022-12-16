@@ -6,4 +6,5 @@ export const menuList: MenuProps["items"] = [
   { label: <Link to="/svgo">svg压缩</Link>, key: "svgo" },
   { label: <Link to="/url">url解析</Link>, key: "url" },
   { label: <Link to="/corn">corn表达式</Link>, key: "corn" },
+  { label: <Link to="/text-reg">文本正则</Link>, key: "text-reg" },
 ];

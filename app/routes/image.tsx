@@ -6,6 +6,7 @@ import is from "@sindresorhus/is";
 import { ImageItem } from "~/components/image";
 import type { ImageType } from "~/components/image/convert-img";
 import { convertImage } from "~/components/image/convert-img";
+import { readImgFromClipboard } from "~/components/image/clipboard";
 
 const imageTypes: ImageType[] = ["png", "jpeg", "webp"];
 
@@ -72,13 +73,34 @@ export default function ImageRoute() {
     });
   };
 
+  const handleReadClipboard = async () => {
+    const file = await readImgFromClipboard();
+    if (!file) {
+      message.error("剪切板中没有图片");
+      return;
+    }
+    const files = [Object.assign(file, { uuid: uuid() }) as IFile]
+    setOriginFiles(files);
+    handleConvertImage(fileType, files);
+  };
+
+  React.useEffect(() => {
+    document.addEventListener("paste", handleReadClipboard);
+    return () => {
+      document.removeEventListener("paste", handleReadClipboard);
+    }
+  }, [])
+
   return (
     <div className="image">
       <Space direction="vertical" style={{ width: "100%" }}>
         <Space>
-          <Button size="small" type="primary" onClick={handleSelectImage}>
-            选择图片
-          </Button>
+          <Button.Group size="small">
+            <Button size="small" type="primary" onClick={handleSelectImage}>
+              选择图片
+            </Button>
+            <Button onClick={handleReadClipboard}>读取剪切板</Button>
+          </Button.Group>
           {originFiles.length > 0 && (
             <Radio.Group
               value={fileType}

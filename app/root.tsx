@@ -6,6 +6,7 @@ import tailwindCss from "~/styles/tailwind.css";
 import { Layout, Menu, theme } from "antd";
 import { menuList } from "./components/menuList";
 import { ClientOnly } from "remix-utils";
+import antdCss from "antd/dist/reset.css";
 
 
 // https://remix.run/api/app#links
@@ -13,7 +14,8 @@ export let links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: globalStylesUrl },
     { rel: "stylesheet", href: normalizeCss },
-    { rel: "stylesheet", href: tailwindCss },
+    // { rel: "stylesheet", href: tailwindCss },
+    { rel: "stylesheet", href: antdCss }
   ];
 };
 

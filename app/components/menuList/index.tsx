@@ -7,4 +7,5 @@ export const menuList: MenuProps["items"] = [
   { label: <Link to="/url">url解析</Link>, key: "url" },
   { label: <Link to="/corn">corn表达式</Link>, key: "corn" },
   { label: <Link to="/text-reg">文本正则</Link>, key: "text-reg" },
+  { label: <Link to="/image">图片处理</Link>, key: "image" },
 ];

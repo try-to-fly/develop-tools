@@ -1,12 +1,13 @@
+import { message } from "antd";
 import { readClipboard } from "~/libs";
 
 export type DouBanResult = Partial<{
   publisher: string;
-  brand: string;
+  chupin: string;
   translator: string;
   pubdate: string;
-  pages: string;
-  price: string;
+  pages: number;
+  price: number;
   zhuangzhen: string;
   congshu: string;
   isbn: string;
@@ -24,8 +25,8 @@ export const readDouBanHtmlFromClipboard = async (): Promise<DouBanResult> => {
   const chupin = text.match(/出品方:\s+(.+)/)?.[1];
   const yizhe = text.match(/译者:\s+(.+)/)?.[1];
   const pubdate = text.match(/出版年:\s+(.+)/)?.[1];
-  const pages = text.match(/页数:\s+(.+)/)?.[1];
-  const price = text.match(/定价:\s+(.+)/)?.[1];
+  const pages = +(text.match(/页数:\s+(.+)/)?.[1] || 0);
+  const price = +(text.match(/定价:\s+(.+)/)?.[1]?.replace("元", "") || 0);
   const zhuangzhen = text.match(/装帧:\s+(.+)/)?.[1];
   const congshu = text.match(/丛书:\s+(.+)/)?.[1];
   const isbn = text.match(/ISBN:\s+(.+)/)?.[1];
@@ -38,9 +39,14 @@ export const readDouBanHtmlFromClipboard = async (): Promise<DouBanResult> => {
   const authorEl = dom.querySelector("#content #info > span a");
   const author = authorEl?.textContent || "";
 
+  if (!title) {
+    message.error("剪切板中没有豆瓣图书信息");
+    throw new Error("剪切板中没有豆瓣图书信息");
+  }
+
   return {
     publisher,
-    brand: chupin,
+    chupin: chupin,
     translator: yizhe,
     pubdate,
     pages,

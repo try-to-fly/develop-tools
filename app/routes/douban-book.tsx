@@ -29,7 +29,7 @@ export default function Douban() {
         <div className="info">
           <Descriptions title="图书信息" bordered>
             <Descriptions.Item label="封面">
-              <Image src={data?.cover} />
+              <Image width={200} src={data?.cover} />
             </Descriptions.Item>
             <Descriptions.Item label="书名">{data?.title}</Descriptions.Item>
             <Descriptions.Item label="作者">{data?.author}</Descriptions.Item>

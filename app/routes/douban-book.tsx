@@ -3,8 +3,8 @@ import { Button, Descriptions, Image, Space, Input, message } from "antd";
 import type { DouBanResult } from "~/components/douban";
 import { readDouBanHtmlFromClipboard } from "~/components/douban";
 import type { MetaFunction } from "@remix-run/server-runtime";
-import { json } from "@remix-run/server-runtime";
-import { useActionData, useFetcher } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
 import { postNotion } from "~/components/douban/post-notion.server";
 import { useLocalStorage } from "react-use";
 
@@ -22,24 +22,31 @@ export async function action({ request }) {
   const result = JSON.parse(body.get("data"));
   const token = body.get("token");
 
-  const response = await postNotion({
+  const success = await postNotion({
     data: result,
     token,
   });
 
   // return
-  return json({ success: response });
+  return json({ success });
 }
 
 export default function Douban() {
   const [data, setData] = React.useState<DouBanResult>();
   const [showConfig, setShowConfig] = React.useState(false);
   const fetcher = useFetcher();
-  const actionData = useActionData();
   const [token, setToken] = useLocalStorage("notion-token", "");
   const [dataBase, setDataBase] = useLocalStorage("notion-database", "");
 
-  console.log("actionData", actionData);
+  console.log("fetcher", fetcher);
+
+  if (fetcher.data && fetcher.type === "done") {
+    if (fetcher.data.success) {
+      message.success("同步成功");
+    } else {
+      message.error("同步失败");
+    }
+  }
 
   const handleReadClipboard = async () => {
     const result = await readDouBanHtmlFromClipboard();
@@ -100,7 +107,7 @@ export default function Douban() {
     fetcher.submit(
       {
         data: JSON.stringify(json),
-        token
+        token,
       },
       {
         method: "post",
@@ -115,7 +122,11 @@ export default function Douban() {
         <Button onClick={handleReadClipboard} type="primary">
           读取剪切板
         </Button>
-        {data && <Button onClick={syncToNotion}>同步Notion</Button>}
+        {data && (
+          <Button loading={fetcher.state !== "idle"} onClick={syncToNotion}>
+            同步Notion
+          </Button>
+        )}
         <Button onClick={() => setShowConfig(!showConfig)}>配置</Button>
       </Space>
       {showConfig && (
